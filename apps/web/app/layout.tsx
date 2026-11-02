@@ -7,9 +7,10 @@
 import Script from "next/script";
 
 // styles
+// oxlint-disable-next-line import/no-unassigned-import -- Load the application stylesheet.
 import "@/styles/globals.css";
 
-import { SITE_DESCRIPTION, SITE_NAME } from "@plane/constants";
+import { createDevspaceMetadata, DEVSPACE_NAME } from "@/helpers/site-metadata";
 
 // helpers
 import { cn } from "@plane/utils";
@@ -25,34 +26,12 @@ import icon512 from "@/app/assets/icons/icon-512x512.png?url";
 import { AppProvider } from "./provider";
 
 export const meta = () => [
-  { title: "Plane | Simple, extensible, open-source project management tool." },
-  { name: "description", content: SITE_DESCRIPTION },
-  {
-    name: "keywords",
-    content:
-      "software development, plan, ship, software, accelerate, code management, release management, project management, work item tracking, agile, scrum, kanban, collaboration",
-  },
+  ...createDevspaceMetadata(import.meta.env.VITE_WEB_BASE_URL || "http://localhost:8089"),
   {
     name: "viewport",
     content:
       "width=device-width, initial-scale=1, minimum-scale=1, maximum-scale=1, user-scalable=no, viewport-fit=cover",
   },
-  { property: "og:title", content: "Plane | Simple, extensible, open-source project management tool." },
-  {
-    property: "og:description",
-    content: "Open-source project management tool to manage work items, cycles, and product roadmaps easily",
-  },
-  { property: "og:url", content: "https://app.plane.so/" },
-  { property: "og:image", content: "https://app.plane.so/og-image.png" },
-  { property: "og:image:width", content: "1200" },
-  { property: "og:image:height", content: "630" },
-  { property: "og:image:alt", content: "Plane - Modern project management" },
-  { name: "twitter:site", content: "@planepowers" },
-  { name: "twitter:card", content: "summary_large_image" },
-  { name: "twitter:image", content: "https://app.plane.so/og-image.png" },
-  { name: "twitter:image:width", content: "1200" },
-  { name: "twitter:image:height", content: "630" },
-  { name: "twitter:image:alt", content: "Plane - Modern project management" },
 ];
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {
@@ -67,10 +46,10 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
         <link rel="manifest" href="/site.webmanifest.json" />
         <link rel="shortcut icon" href={faviconIco} />
         {/* Meta info for PWA */}
-        <meta name="application-name" content="Plane" />
+        <meta name="application-name" content={DEVSPACE_NAME} />
         <meta name="apple-mobile-web-app-capable" content="yes" />
         <meta name="apple-mobile-web-app-status-bar-style" content="default" />
-        <meta name="apple-mobile-web-app-title" content={SITE_NAME} />
+        <meta name="apple-mobile-web-app-title" content={DEVSPACE_NAME} />
         <meta name="format-detection" content="telephone=no" />
         <meta name="mobile-web-app-capable" content="yes" />
         <link rel="apple-touch-icon" href={icon512} />

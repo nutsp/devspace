@@ -10,7 +10,7 @@ import { Links, Meta, Outlet, Scripts } from "react-router";
 import type { LinksFunction } from "react-router";
 import { ThemeProvider, useTheme } from "next-themes";
 // plane imports
-import { SITE_DESCRIPTION, SITE_NAME } from "@plane/constants";
+import { createDevspaceMetadata, DEVSPACE_NAME } from "@/helpers/site-metadata";
 import { cn } from "@plane/utils";
 // types
 // assets
@@ -19,7 +19,6 @@ import favicon32 from "@/app/assets/favicon/favicon-32x32.png?url";
 import faviconIco from "@/app/assets/favicon/favicon.ico?url";
 import icon180 from "@/app/assets/icons/icon-180x180.png?url";
 import icon512 from "@/app/assets/icons/icon-512x512.png?url";
-import ogImage from "@/app/assets/og-image.png?url";
 import globalStyles from "@/styles/globals.css?url";
 import type { Route } from "./+types/root";
 // components
@@ -30,12 +29,13 @@ import { isStaleAssetError, recoverFromStaleAsset } from "@/lib/stale-asset-erro
 import { CustomErrorComponent } from "./error";
 import { AppProvider } from "./provider";
 // fonts
+// oxlint-disable-next-line import/no-unassigned-import -- Load the application font styles.
 import "@fontsource-variable/inter";
 import interVariableWoff2 from "@fontsource-variable/inter/files/inter-latin-wght-normal.woff2?url";
+// oxlint-disable-next-line import/no-unassigned-import -- Load the application font styles.
 import "@fontsource/material-symbols-rounded";
+// oxlint-disable-next-line import/no-unassigned-import -- Load the application font styles.
 import "@fontsource/ibm-plex-mono";
-
-const APP_TITLE = "Plane | Simple, extensible, open-source project management tool.";
 
 export const links: LinksFunction = () => [
   { rel: "icon", type: "image/png", sizes: "32x32", href: favicon32 },
@@ -66,10 +66,10 @@ export function Layout({ children }: { children: ReactNode }) {
         <meta name="viewport" content="width=device-width, initial-scale=1" />
         <meta name="theme-color" content="#fff" />
         {/* Meta info for PWA */}
-        <meta name="application-name" content="Plane" />
+        <meta name="application-name" content={DEVSPACE_NAME} />
         <meta name="apple-mobile-web-app-capable" content="yes" />
         <meta name="apple-mobile-web-app-status-bar-style" content="default" />
-        <meta name="apple-mobile-web-app-title" content={SITE_NAME} />
+        <meta name="apple-mobile-web-app-title" content={DEVSPACE_NAME} />
         <meta name="format-detection" content="telephone=no" />
         <meta name="mobile-web-app-capable" content="yes" />
         <Meta />
@@ -96,31 +96,8 @@ export function Layout({ children }: { children: ReactNode }) {
   );
 }
 
-export const meta: Route.MetaFunction = () => [
-  { title: APP_TITLE },
-  { name: "description", content: SITE_DESCRIPTION },
-  { property: "og:title", content: APP_TITLE },
-  {
-    property: "og:description",
-    content: "Open-source project management tool to manage work items, cycles, and product roadmaps easily",
-  },
-  { property: "og:url", content: "https://app.plane.so/" },
-  { property: "og:image", content: ogImage },
-  { property: "og:image:width", content: "1200" },
-  { property: "og:image:height", content: "630" },
-  { property: "og:image:alt", content: "Plane - Modern project management" },
-  {
-    name: "keywords",
-    content:
-      "software development, plan, ship, software, accelerate, code management, release management, project management, work item tracking, agile, scrum, kanban, collaboration",
-  },
-  { name: "twitter:site", content: "@planepowers" },
-  { name: "twitter:card", content: "summary_large_image" },
-  { name: "twitter:image", content: ogImage },
-  { name: "twitter:image:width", content: "1200" },
-  { name: "twitter:image:height", content: "630" },
-  { name: "twitter:image:alt", content: "Plane - Modern project management" },
-];
+export const meta: Route.MetaFunction = () =>
+  createDevspaceMetadata(import.meta.env.VITE_WEB_BASE_URL || "http://localhost:8089");
 
 export default function Root() {
   return (

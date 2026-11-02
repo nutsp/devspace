@@ -1,0 +1,22 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="630" viewBox="0 0 1200 630">
+<rect width="1200" height="630" fill="#111315"/>
+<rect x="72" y="72" width="72" height="72" rx="18" fill="#096A9D"/>
+<g fill="none" stroke="white" stroke-width="4" stroke-linecap="round" stroke-linejoin="round">
+<path d="M94 94h14a14 14 0 0 1 0 28H94z"/>
+</g>
+<g font-family="Inter,Arial,sans-serif">
+<text x="72" y="270" font-size="94" font-weight="700" fill="#F5F7FA" letter-spacing="-3">Devspace</text>
+<text x="76" y="337" font-size="36" fill="#C3C9D2">One workspace for your team.</text>
+<path d="M76 402H1124" stroke="#343B43" stroke-width="2"/>
+<g fill="#E1E6EC" font-size="29" font-weight="500">
+<text x="120" y="478">Work</text><text x="352" y="478">Wiki</text><text x="580" y="478">Timesheets</text><text x="905" y="478">Milestones</text>
+</g>
+<text x="76" y="571" font-size="22" fill="#9CA5B1">Built on Plane Community</text>
+</g>
+<g stroke="#79C9F3" stroke-width="2.6" fill="none" stroke-linecap="round" stroke-linejoin="round">
+<path d="M78 454h22v23H78z M84 461h10 M84 468h7"/>
+<path d="M306 455q8-4 16 1v22q-8-5-16-1z M322 456q8-5 16-1v22q-8-4-16 1"/>
+<circle cx="548" cy="465" r="14"/><path d="M548 456v10l7 4"/>
+<path d="M865 480v-29 M865 453h20v14h-20"/>
+</g>
+</svg>

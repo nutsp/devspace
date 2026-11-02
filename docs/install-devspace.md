@@ -35,6 +35,8 @@ CORS_ALLOWED_ORIGINS=http://SERVER_IP:8089
 
 เปลี่ยน `SERVER_IP` เป็น IP/ชื่อเครื่องจริง `WEB_URL` คือ URL ที่ผู้ใช้เปิดจาก browser จึงห้ามใช้ `localhost` สำหรับผู้ใช้จากเครื่องอื่น
 
+`WEB_URL` ยังถูกส่งเข้า Web build เพื่อสร้าง Open Graph/Twitter preview เป็น URL ของเครื่องที่ติดตั้ง หากเปลี่ยนโดเมนภายหลัง ให้ build และ recreate เฉพาะ Web ใหม่ด้วย (`./deploy/devspace/devspace build web` แล้ว `./deploy/devspace/devspace up -d --no-deps web`)
+
 สำหรับใช้งานจริง ให้ตั้ง reverse proxy ด้านหน้าพอร์ตนี้พร้อม HTTPS/WebSocket แล้วเปลี่ยน `WEB_URL` และ CORS เป็น HTTPS origin เดียวกัน เช่น `https://devspace.example.com` คง bind เป็น loopback ถ้า reverse proxy อยู่เครื่องเดียวกัน การตั้งโดเมนอย่างเดียวไม่ได้ทำให้ Compose ชุดนี้ออก certificate อัตโนมัติ
 
 ```sh
