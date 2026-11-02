@@ -1,11 +1,22 @@
 {
-  "name": "",
-  "short_name": "",
-  "icons": [
-    { "src": "/favicon/android-chrome-192x192.png", "sizes": "192x192", "type": "image/png" },
-    { "src": "/favicon/android-chrome-512x512.png", "sizes": "512x512", "type": "image/png" }
-  ],
-  "theme_color": "#ffffff",
+  "name": "Devspace",
+  "short_name": "Devspace",
+  "description": "One workspace for your team's projects, knowledge, timesheets and milestones.",
+  "start_url": "/",
+  "scope": "/",
+  "display": "standalone",
   "background_color": "#ffffff",
-  "display": "standalone"
+  "theme_color": "#096A9D",
+  "icons": [
+    {
+      "src": "/brand/devspace-icon-v1-192.png",
+      "sizes": "192x192",
+      "type": "image/png"
+    },
+    {
+      "src": "/brand/devspace-icon-v1-512.png",
+      "sizes": "512x512",
+      "type": "image/png"
+    }
+  ]
 }

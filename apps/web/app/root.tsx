@@ -14,11 +14,6 @@ import { createDevspaceMetadata, DEVSPACE_NAME } from "@/helpers/site-metadata";
 import { cn } from "@plane/utils";
 // types
 // assets
-import favicon16 from "@/app/assets/favicon/favicon-16x16.png?url";
-import favicon32 from "@/app/assets/favicon/favicon-32x32.png?url";
-import faviconIco from "@/app/assets/favicon/favicon.ico?url";
-import icon180 from "@/app/assets/icons/icon-180x180.png?url";
-import icon512 from "@/app/assets/icons/icon-512x512.png?url";
 import globalStyles from "@/styles/globals.css?url";
 import type { Route } from "./+types/root";
 // components
@@ -38,14 +33,13 @@ import "@fontsource/material-symbols-rounded";
 import "@fontsource/ibm-plex-mono";
 
 export const links: LinksFunction = () => [
-  { rel: "icon", type: "image/png", sizes: "32x32", href: favicon32 },
-  { rel: "icon", type: "image/png", sizes: "16x16", href: favicon16 },
-  { rel: "shortcut icon", href: faviconIco },
-  { rel: "manifest", href: "/site.webmanifest.json" },
-  { rel: "apple-touch-icon", href: icon512 },
-  { rel: "apple-touch-icon", sizes: "180x180", href: icon180 },
-  { rel: "apple-touch-icon", sizes: "512x512", href: icon512 },
-  { rel: "manifest", href: "/manifest.json" },
+  { rel: "icon", type: "image/png", sizes: "32x32", href: `${import.meta.env.BASE_URL}brand/devspace-icon-v1-32.png` },
+  { rel: "icon", type: "image/png", sizes: "16x16", href: `${import.meta.env.BASE_URL}brand/devspace-icon-v1-16.png` },
+  { rel: "shortcut icon", href: `${import.meta.env.BASE_URL}brand/devspace-favicon-v1.ico` },
+  { rel: "manifest", href: `${import.meta.env.BASE_URL}site.webmanifest.json` },
+  { rel: "apple-touch-icon", href: `${import.meta.env.BASE_URL}brand/devspace-icon-v1-512.png` },
+  { rel: "apple-touch-icon", sizes: "180x180", href: `${import.meta.env.BASE_URL}brand/devspace-icon-v1-180.png` },
+  { rel: "apple-touch-icon", sizes: "512x512", href: `${import.meta.env.BASE_URL}brand/devspace-icon-v1-512.png` },
   { rel: "stylesheet", href: globalStyles },
   {
     rel: "preload",

@@ -16,11 +16,6 @@ import { createDevspaceMetadata, DEVSPACE_NAME } from "@/helpers/site-metadata";
 import { cn } from "@plane/utils";
 
 // assets
-import favicon16 from "@/app/assets/favicon/favicon-16x16.png?url";
-import favicon32 from "@/app/assets/favicon/favicon-32x32.png?url";
-import faviconIco from "@/app/assets/favicon/favicon.ico?url";
-import icon180 from "@/app/assets/icons/icon-180x180.png?url";
-import icon512 from "@/app/assets/icons/icon-512x512.png?url";
 
 // local
 import { AppProvider } from "./provider";
@@ -41,10 +36,20 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
     <html lang="en">
       <head>
         <meta name="theme-color" content="#fff" />
-        <link rel="icon" type="image/png" sizes="32x32" href={favicon32} />
-        <link rel="icon" type="image/png" sizes="16x16" href={favicon16} />
-        <link rel="manifest" href="/site.webmanifest.json" />
-        <link rel="shortcut icon" href={faviconIco} />
+        <link
+          rel="icon"
+          type="image/png"
+          sizes="32x32"
+          href={`${import.meta.env.BASE_URL}brand/devspace-icon-v1-32.png`}
+        />
+        <link
+          rel="icon"
+          type="image/png"
+          sizes="16x16"
+          href={`${import.meta.env.BASE_URL}brand/devspace-icon-v1-16.png`}
+        />
+        <link rel="manifest" href={`${import.meta.env.BASE_URL}site.webmanifest.json`} />
+        <link rel="shortcut icon" href={`${import.meta.env.BASE_URL}brand/devspace-favicon-v1.ico`} />
         {/* Meta info for PWA */}
         <meta name="application-name" content={DEVSPACE_NAME} />
         <meta name="apple-mobile-web-app-capable" content="yes" />
@@ -52,10 +57,17 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
         <meta name="apple-mobile-web-app-title" content={DEVSPACE_NAME} />
         <meta name="format-detection" content="telephone=no" />
         <meta name="mobile-web-app-capable" content="yes" />
-        <link rel="apple-touch-icon" href={icon512} />
-        <link rel="apple-touch-icon" sizes="180x180" href={icon180} />
-        <link rel="apple-touch-icon" sizes="512x512" href={icon512} />
-        <link rel="manifest" href="/manifest.json" />
+        <link rel="apple-touch-icon" href={`${import.meta.env.BASE_URL}brand/devspace-icon-v1-512.png`} />
+        <link
+          rel="apple-touch-icon"
+          sizes="180x180"
+          href={`${import.meta.env.BASE_URL}brand/devspace-icon-v1-180.png`}
+        />
+        <link
+          rel="apple-touch-icon"
+          sizes="512x512"
+          href={`${import.meta.env.BASE_URL}brand/devspace-icon-v1-512.png`}
+        />
       </head>
       <body>
         <div id="context-menu-portal" />

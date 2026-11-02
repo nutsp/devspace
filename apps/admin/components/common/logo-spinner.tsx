@@ -4,18 +4,12 @@
  * See the LICENSE file for details.
  */
 
-import { useTheme } from "next-themes";
-import LogoSpinnerDark from "@/app/assets/images/logo-spinner-dark.gif?url";
-import LogoSpinnerLight from "@/app/assets/images/logo-spinner-light.gif?url";
+import { DevspaceMark } from "@plane/ui";
 
 export function LogoSpinner() {
-  const { resolvedTheme } = useTheme();
-
-  const logoSrc = resolvedTheme === "dark" ? LogoSpinnerLight : LogoSpinnerDark;
-
   return (
-    <div className="flex items-center justify-center">
-      <img src={logoSrc} alt="logo" className="h-6 w-auto sm:h-11" />
+    <div className="flex items-center justify-center" role="status" aria-label="Loading Devspace">
+      <DevspaceMark className="size-6 animate-pulse motion-reduce:animate-none sm:size-11" aria-hidden="true" />
     </div>
   );
 }

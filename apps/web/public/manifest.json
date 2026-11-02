@@ -1,27 +1,22 @@
 {
-  "name": "Plane",
-  "short_name": "Plane",
+  "name": "Devspace",
+  "short_name": "Devspace",
+  "description": "One workspace for your team's projects, knowledge, timesheets and milestones.",
+  "start_url": "/",
+  "scope": "/",
+  "display": "standalone",
+  "background_color": "#ffffff",
+  "theme_color": "#096A9D",
   "icons": [
     {
-      "src": "/icons/icon-192x192.png",
+      "src": "/brand/devspace-icon-v1-192.png",
       "sizes": "192x192",
-      "type": "image/png",
-      "purpose": "any maskable"
-    },
-    {
-      "src": "/icons/icon-348x348.png",
-      "sizes": "348x348",
       "type": "image/png"
     },
     {
-      "src": "/icons/icon-512x512.png",
+      "src": "/brand/devspace-icon-v1-512.png",
       "sizes": "512x512",
       "type": "image/png"
     }
-  ],
-  "theme_color": "#FFFFFF",
-  "background_color": "#FFFFFF",
-  "start_url": "/",
-  "display": "standalone",
-  "orientation": "portrait"
+  ]
 }

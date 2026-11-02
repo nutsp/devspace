@@ -42,6 +42,7 @@ CORS_ALLOWED_ORIGINS=http://SERVER_IP:8089
 ```sh
 ./deploy/devspace/devspace config --quiet
 ./deploy/devspace/devspace build web
+./deploy/devspace/devspace build admin
 ./deploy/devspace/devspace build live
 ./deploy/devspace/devspace build api
 ./deploy/devspace/devspace up -d
@@ -146,6 +147,7 @@ integrations/mcp/.venv/bin/pip install -r integrations/mcp/requirements.txt
 ./deploy/devspace/devspace stop proxy api worker beat-worker live
 git pull --ff-only
 ./deploy/devspace/devspace build web
+./deploy/devspace/devspace build admin
 ./deploy/devspace/devspace build live
 ./deploy/devspace/devspace build api
 ./deploy/devspace/devspace build mcp

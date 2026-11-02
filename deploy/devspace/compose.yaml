@@ -51,7 +51,13 @@ services:
         VITE_WEB_BASE_URL: ${WEB_URL:?Set WEB_URL}
     restart: unless-stopped
   admin:
-    image: makeplane/plane-admin:v1.4.3
+    image: devspace-admin:local
+    build:
+      context: ../..
+      dockerfile: deploy/devspace/Dockerfile
+      target: admin
+      args:
+        VITE_WEB_BASE_URL: ${WEB_URL:?Set WEB_URL}
     restart: unless-stopped
   space:
     image: makeplane/plane-space:v1.4.3

@@ -20,6 +20,7 @@ Follow the [complete installation guide (Thai)](docs/install-devspace.md) for Do
 ```sh
 python3 deploy/devspace/configure.py
 ./deploy/devspace/devspace build web
+./deploy/devspace/devspace build admin
 ./deploy/devspace/devspace build live
 ./deploy/devspace/devspace build api
 ./deploy/devspace/devspace up -d

@@ -1,13 +1,22 @@
 {
-  "name": "Plane God Mode",
-  "short_name": "Plane God Mode",
-  "description": "Plane helps you plan your issues, cycles, and product modules.",
-  "start_url": ".",
+  "name": "Devspace Admin",
+  "short_name": "Devspace",
+  "description": "Manage your Devspace instance.",
+  "start_url": "/god-mode/",
+  "scope": "/god-mode/",
   "display": "standalone",
-  "background_color": "#f9fafb",
-  "theme_color": "#3f76ff",
+  "background_color": "#ffffff",
+  "theme_color": "#096A9D",
   "icons": [
-    { "src": "/favicon/android-chrome-192x192.png", "sizes": "192x192", "type": "image/png" },
-    { "src": "/favicon/android-chrome-512x512.png", "sizes": "512x512", "type": "image/png" }
+    {
+      "src": "/god-mode/brand/devspace-icon-v1-192.png",
+      "sizes": "192x192",
+      "type": "image/png"
+    },
+    {
+      "src": "/god-mode/brand/devspace-icon-v1-512.png",
+      "sizes": "512x512",
+      "type": "image/png"
+    }
   ]
 }
