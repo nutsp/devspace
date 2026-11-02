@@ -31,6 +31,6 @@ Run migrations on new instances before using custom features. Back up databases 
 
 ## Local runtime boundary
 
-The current local runtime and launchers are outside this checkout. Its default URL is port 8089; port 8088 is a legacy GET/HEAD redirect. Do not use port 8088 for API or MCP requests.
+The original demo runtime and launchers remain outside this checkout. For new machines, use the portable `deploy/devspace/compose.yaml` and [installation guide](install-devspace.md). The MCP adapter is in `integrations/mcp`. Its default URL is port 8089; port 8088 is a legacy GET/HEAD redirect. Do not use port 8088 for API or MCP requests.
 
 Custom web builds require `VITE_LIVE_BASE_PATH=/live`, `VITE_ADMIN_BASE_PATH=/god-mode` and `VITE_SPACE_BASE_PATH=/spaces`; `build-wiki.sh` sets these values. PlantUML rendering requires an internal-only local renderer. Runtime environment files, database backups and MCP credentials must not be committed.

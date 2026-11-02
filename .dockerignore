@@ -67,3 +67,15 @@ temp/
 build/
 node_modules/
 README.md
+
+# Devspace runtime settings and backups
+**/devspace.env
+**/mcp.env
+*.dump
+*.private.*
+**/credentials*.json
+**/docs-credentials.json
+**/backups/
+
+# Local sync conflict copies must not enter build contexts.
+**/* 2.*

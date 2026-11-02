@@ -1,0 +1,5 @@
+# Merge into the MCP client's config. Replace all /absolute/path/to/devspace paths.
+# Tokens stay in integrations/mcp/mcp.env and are not embedded in client config.
+[mcp_servers.devspace]
+command = "docker"
+args = ["compose", "--env-file", "/absolute/path/to/devspace/deploy/devspace/devspace.env", "-f", "/absolute/path/to/devspace/deploy/devspace/compose.yaml", "run", "--rm", "--no-deps", "-T", "mcp"]

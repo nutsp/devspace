@@ -1,0 +1,19 @@
+{
+  "mcpServers": {
+    "devspace": {
+      "command": "docker",
+      "args": [
+        "compose",
+        "--env-file",
+        "/absolute/path/to/devspace/deploy/devspace/devspace.env",
+        "-f",
+        "/absolute/path/to/devspace/deploy/devspace/compose.yaml",
+        "run",
+        "--rm",
+        "--no-deps",
+        "-T",
+        "mcp"
+      ]
+    }
+  }
+}

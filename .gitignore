@@ -125,3 +125,12 @@ packages/i18n/src/types/keys.generated.ts
 credentials*.json
 docs-credentials.json
 plane.env
+
+# Devspace runtime settings and backups
+**/devspace.env
+**/mcp.env
+*.dump
+*.private.*
+**/credentials*.json
+**/docs-credentials.json
+**/backups/

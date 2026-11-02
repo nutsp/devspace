@@ -1,0 +1,5 @@
+#!/bin/sh
+# Always resolve env/compose paths relative to this script, not the caller's cwd.
+set -eu
+location=$(CDPATH= cd -- "$(dirname -- "$0")" && pwd)
+exec docker compose --env-file "$location/devspace.env" -f "$location/compose.yaml" "$@"

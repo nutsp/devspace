@@ -11,7 +11,21 @@ A shared workspace for software teams, built on [Plane Community](https://github
 - **Milestones**: Project milestones, workspace overview, risk indicators and timeline markers.
 - **Read-only integration API**: Permission-checked Work, Wiki, Timesheet and Milestone endpoints for the local MCP adapter.
 
-The active local demo is at `http://localhost:8089/software-team-demo/`. This repository contains source code, not the demo database, uploads, credentials or machine-specific MCP configuration. The MCP adapter and runtime configuration are currently maintained separately.
+The active local demo is at `http://localhost:8089/software-team-demo/`. This repository contains source code, not the demo database, uploads, credentials or machine-specific MCP configuration. Portable Docker Compose and the read-only MCP adapter are included in this repository.
+
+## Install on another machine
+
+Follow the [complete installation guide (Thai)](docs/install-devspace.md) for Docker Compose, first-run setup, private env generation, MCP client configuration, backup/restore and upgrades. Start with:
+
+```sh
+python3 deploy/devspace/configure.py
+./deploy/devspace/devspace build web
+./deploy/devspace/devspace build live
+./deploy/devspace/devspace build api
+./deploy/devspace/devspace up -d
+```
+
+Credentials are generated locally or supplied in ignored env files; none are included in the repository.
 
 ## Development
 
