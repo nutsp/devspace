@@ -5,7 +5,7 @@
  */
 
 import { useEffect } from "react";
-import { DEVSPACE_TITLE } from "@/helpers/site-metadata";
+import { devspacePageTitle } from "@/helpers/site-metadata";
 
 type PageHeadTitleProps = {
   title?: string;
@@ -17,7 +17,7 @@ export function PageHead(props: PageHeadTitleProps) {
 
   useEffect(() => {
     if (title) {
-      document.title = title ?? DEVSPACE_TITLE;
+      document.title = devspacePageTitle(title);
     }
   }, [title]);
 

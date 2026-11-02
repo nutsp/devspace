@@ -29,3 +29,9 @@ export function createDevspaceMetadata(publicUrl: string): MetaDescriptor[] {
     { name: "twitter:image:alt", content: imageAlt },
   ];
 }
+
+export function devspacePageTitle(title?: string): string {
+  if (!title) return DEVSPACE_TITLE;
+  if (title === DEVSPACE_NAME || title === DEVSPACE_TITLE || title.endsWith(" - Devspace")) return title;
+  return `${title} - Devspace`;
+}
