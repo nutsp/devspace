@@ -29,6 +29,7 @@ class Page(BaseModel):
 
     workspace = models.ForeignKey("db.Workspace", on_delete=models.CASCADE, related_name="pages")
     name = models.TextField(blank=True)
+    wiki_review = models.JSONField(default=dict, blank=True)
     description_json = models.JSONField(default=dict, blank=True)
     description_binary = models.BinaryField(null=True)
     description_html = models.TextField(blank=True, default="<p></p>")
@@ -68,6 +69,13 @@ class Page(BaseModel):
         return f"{self.owned_by.email} <{self.name}>"
 
     def save(self, *args, **kwargs):
+        # Review metadata is written explicitly; stale editor instances must not overwrite it.
+        if not self._state.adding and kwargs.get("update_fields") is None and not kwargs.get("force_insert"):
+            deferred = self.get_deferred_fields()
+            kwargs["update_fields"] = [
+                field.name for field in self._meta.concrete_fields
+                if not field.primary_key and field.name != "wiki_review" and field.attname not in deferred
+            ]
         # Strip the html tags using html parser
         self.description_stripped = (
             None

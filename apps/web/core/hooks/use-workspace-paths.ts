@@ -5,6 +5,7 @@
  */
 
 import { useParams, usePathname } from "next/navigation";
+import { getWorkspaceSection } from "@/helpers/workspace-app-navigation";
 
 /**
  * Custom hook to detect different workspace paths
@@ -14,15 +15,18 @@ export const useWorkspacePaths = () => {
   const { workspaceSlug } = useParams();
   const pathname = usePathname();
 
-  const isSettingsPath = pathname.includes(`/${workspaceSlug}/settings`);
-  const isWikiPath = pathname.includes(`/${workspaceSlug}/wiki`);
-  const isAiPath = pathname.includes(`/${workspaceSlug}/pi-chat`);
-  const isProjectsPath = pathname.includes(`/${workspaceSlug}/`) && !isWikiPath && !isAiPath && !isSettingsPath;
+  const section = getWorkspaceSection(pathname, workspaceSlug?.toString());
+  const isSettingsPath = section === "settings";
+  const isWikiPath = section === "wiki";
+  const isTimesheetPath = section === "timesheet";
+  const isAiPath = section === "ai";
+  const isProjectsPath = section === "work";
   const isNotificationsPath = pathname.includes(`/${workspaceSlug}/notifications`);
 
   return {
     isSettingsPath,
     isWikiPath,
+    isTimesheetPath,
     isAiPath,
     isProjectsPath,
     isNotificationsPath,

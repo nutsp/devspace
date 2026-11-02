@@ -68,6 +68,8 @@ export interface ICustomSelectProps extends IDropdownProps {
 }
 
 interface CustomSearchSelectProps {
+  matchButtonWidth?: boolean;
+  onQueryChange?: (query: string) => void;
   footerOption?: React.ReactNode;
   onChange: any;
   onClose?: () => void;

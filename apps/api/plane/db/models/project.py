@@ -94,6 +94,8 @@ class Project(BaseModel):
     cycle_view = models.BooleanField(default=False)
     issue_views_view = models.BooleanField(default=False)
     page_view = models.BooleanField(default=True)
+    # Wiki collections reuse project membership and the existing collaborative Pages pipeline.
+    is_wiki_collection = models.BooleanField(default=False, db_index=True)
     intake_view = models.BooleanField(default=False)
     is_time_tracking_enabled = models.BooleanField(default=False)
     is_issue_type_enabled = models.BooleanField(default=False)

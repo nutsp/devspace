@@ -185,6 +185,10 @@ export class ProjectPage extends BasePage implements TProjectPage {
 
   getRedirectionLink = computedFn(() => {
     const { workspaceSlug } = this.rootStore.router;
-    return `/${workspaceSlug}/projects/${this.project_ids?.[0]}/pages/${this.id}`;
+    const projectId = this.project_ids?.[0];
+    const project = projectId ? this.rootStore.projectRoot.project.getProjectById(projectId) : undefined;
+    return project?.is_wiki_collection
+      ? `/${workspaceSlug}/wiki/${projectId}/pages/${this.id}`
+      : `/${workspaceSlug}/projects/${projectId}/pages/${this.id}`;
   });
 }

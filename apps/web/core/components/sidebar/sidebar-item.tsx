@@ -40,6 +40,8 @@ interface AppSidebarLinkItemProps {
   href?: string;
   children: React.ReactNode;
   className?: string;
+  label?: string;
+  isActive?: boolean;
 }
 
 interface AppSidebarButtonItemProps {
@@ -54,7 +56,7 @@ interface AppSidebarButtonItemProps {
 // ============================================================================
 
 const styles = {
-  base: "group flex flex-col gap-0.5 items-center justify-center text-tertiary",
+  base: "group flex flex-col gap-0.5 items-center justify-center rounded-md text-tertiary focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-current",
   icon: "flex items-center justify-center gap-2 size-8 rounded-md text-tertiary",
   iconActive: "bg-layer-transparent-selected text-secondary !text-icon-primary",
   iconInactive: "group-hover:text-icon-secondary group-hover:bg-layer-transparent-hover !text-icon-tertiary",
@@ -97,11 +99,17 @@ function AppSidebarItemIcon({ icon, highlight }: AppSidebarItemIconProps) {
   );
 }
 
-function AppSidebarLinkItem({ href, children, className }: AppSidebarLinkItemProps) {
+function AppSidebarLinkItem({ href, children, className, label, isActive }: AppSidebarLinkItemProps) {
   if (!href) return null;
 
   return (
-    <Link href={href} className={cn(styles.base, className)}>
+    <Link
+      href={href}
+      aria-label={label}
+      aria-current={isActive ? "page" : undefined}
+      title={label}
+      className={cn(styles.base, className)}
+    >
       {children}
     </Link>
   );
@@ -139,7 +147,11 @@ function AppSidebarItem({ variant = "link", item }: AppSidebarItemProps) {
   );
 
   if (variant === "link") {
-    return <AppSidebarLinkItem href={href}>{commonItems}</AppSidebarLinkItem>;
+    return (
+      <AppSidebarLinkItem href={href} label={label} isActive={isActive}>
+        {commonItems}
+      </AppSidebarLinkItem>
+    );
   }
 
   return (

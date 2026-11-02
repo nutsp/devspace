@@ -165,6 +165,7 @@ export class ProjectStore implements IProjectStore {
     if (!workspaceDetails || !displayFilters || !filters) return;
     let workspaceProjects = Object.values(this.projectMap).filter(
       (p) =>
+        !p.is_wiki_collection &&
         p.workspace === workspaceDetails.id &&
         (p.name.toLowerCase().includes(searchQuery.toLowerCase()) ||
           p.identifier.toLowerCase().includes(searchQuery.toLowerCase())) &&
@@ -181,7 +182,7 @@ export class ProjectStore implements IProjectStore {
     const workspaceDetails = this.rootStore.workspaceRoot.currentWorkspace;
     if (!workspaceDetails) return;
     const workspaceProjects = Object.values(this.projectMap).filter(
-      (p) => p.workspace === workspaceDetails.id && !p.archived_at
+      (p) => !p.is_wiki_collection && p.workspace === workspaceDetails.id && !p.archived_at
     );
     const projectIds = workspaceProjects.map((p) => p.id);
     return projectIds ?? null;
@@ -198,7 +199,9 @@ export class ProjectStore implements IProjectStore {
     projects = sortBy(projects, "archived_at");
 
     const projectIds = projects
-      .filter((project) => project.workspace === currentWorkspace.id && !!project.archived_at)
+      .filter(
+        (project) => !project.is_wiki_collection && project.workspace === currentWorkspace.id && !!project.archived_at
+      )
       .map((project) => project.id);
     return projectIds;
   }
@@ -244,7 +247,13 @@ export class ProjectStore implements IProjectStore {
     projects = sortBy(projects, "sort_order");
 
     const projectIds = projects
-      .filter((project) => project.workspace === currentWorkspace.id && !!project.member_role && !project.archived_at)
+      .filter(
+        (project) =>
+          !project.is_wiki_collection &&
+          project.workspace === currentWorkspace.id &&
+          !!project.member_role &&
+          !project.archived_at
+      )
       .map((project) => project.id);
     return projectIds;
   }
@@ -262,6 +271,7 @@ export class ProjectStore implements IProjectStore {
     const projectIds = projects
       .filter(
         (project) =>
+          !project.is_wiki_collection &&
           project.workspace === currentWorkspace.id &&
           !!project.member_role &&
           project.is_favorite &&
@@ -607,6 +617,7 @@ export class ProjectStore implements IProjectStore {
           set(this.projectMap, [projectId, "archived_at"], response.archived_at);
           this.rootStore.favorite.removeFavoriteFromStore(projectId);
         });
+        return response;
       })
       .catch((error) => {
         console.log("Failed to archive project from project store");
@@ -623,10 +634,11 @@ export class ProjectStore implements IProjectStore {
   restoreProject = async (workspaceSlug: string, projectId: string) => {
     await this.projectArchiveService
       .restoreProject(workspaceSlug, projectId)
-      .then(() => {
+      .then((response) => {
         runInAction(() => {
           set(this.projectMap, [projectId, "archived_at"], null);
         });
+        return response;
       })
       .catch((error) => {
         console.log("Failed to restore project from project store");

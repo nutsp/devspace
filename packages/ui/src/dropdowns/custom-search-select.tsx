@@ -9,6 +9,7 @@ import { Info } from "lucide-react";
 import React, { useRef, useState } from "react";
 import { createPortal } from "react-dom";
 import { usePopper } from "react-popper";
+import type { Modifier } from "@popperjs/core";
 import { useOutsideClickDetector } from "@plane/hooks";
 import { CheckIcon, SearchIcon, ChevronDownIcon } from "@plane/propel/icons";
 // plane imports
@@ -17,6 +18,16 @@ import { Tooltip } from "@plane/propel/tooltip";
 import { useDropdownKeyDown } from "../hooks/use-dropdown-key-down";
 import { cn } from "../utils";
 import type { ICustomSearchSelectProps } from "./helper";
+
+const matchButtonWidthModifier: Modifier<"matchButtonWidth", Record<string, never>> = {
+  name: "matchButtonWidth",
+  enabled: true,
+  phase: "beforeWrite",
+  requires: ["computeStyles"],
+  fn: ({ state }) => {
+    state.styles.popper.width = `${state.rects.reference.width}px`;
+  },
+};
 
 export function CustomSearchSelect(props: ICustomSearchSelectProps) {
   const {
@@ -31,9 +42,11 @@ export function CustomSearchSelect(props: ICustomSearchSelectProps) {
     input = false,
     label,
     maxHeight = "md",
+    matchButtonWidth = false,
     multiple = false,
     noChevron = false,
     onChange,
+    onQueryChange,
     options,
     onOpen,
     onClose,
@@ -48,33 +61,47 @@ export function CustomSearchSelect(props: ICustomSearchSelectProps) {
   const [referenceElement, setReferenceElement] = useState<HTMLButtonElement | null>(null);
   const [popperElement, setPopperElement] = useState<HTMLDivElement | null>(null);
   const [isOpen, setIsOpen] = useState(defaultOpen);
+  const openRef = useRef(defaultOpen);
   // refs
   const dropdownRef = useRef<HTMLDivElement | null>(null);
 
   const { styles, attributes } = usePopper(referenceElement, popperElement, {
     placement: placement ?? "bottom-start",
+    modifiers: matchButtonWidth ? [matchButtonWidthModifier] : [],
   });
 
   const filteredOptions =
-    query === "" ? options : options?.filter((option) => option.query.toLowerCase().includes(query.toLowerCase()));
+    query === "" || onQueryChange
+      ? options
+      : options?.filter((option) => option.query.toLowerCase().includes(query.toLowerCase()));
 
   const comboboxProps: any = {
     value,
-    onChange,
+    onChange: (next: unknown) => {
+      onChange(next);
+      if (!multiple) closeDropdown();
+    },
     disabled,
   };
 
   if (multiple) comboboxProps.multiple = true;
 
   const openDropdown = () => {
+    openRef.current = true;
     setIsOpen(true);
     if (referenceElement) referenceElement.focus();
     if (onOpen) onOpen();
   };
 
   const closeDropdown = () => {
+    if (!openRef.current) return;
+    openRef.current = false;
     setIsOpen(false);
-    onClose && onClose();
+    if (onQueryChange) {
+      setQuery("");
+      onQueryChange("");
+    }
+    onClose?.();
   };
 
   const handleKeyDown = useDropdownKeyDown(openDropdown, closeDropdown, isOpen);
@@ -87,6 +114,7 @@ export function CustomSearchSelect(props: ICustomSearchSelectProps) {
 
   return (
     <Combobox
+      role="group"
       as="div"
       ref={dropdownRef}
       tabIndex={tabIndex}
@@ -158,7 +186,10 @@ export function CustomSearchSelect(props: ICustomSearchSelectProps) {
                       <Combobox.Input
                         className="w-full bg-transparent py-1 text-11 text-secondary placeholder:text-placeholder focus:outline-none"
                         value={query}
-                        onChange={(e) => setQuery(e.target.value)}
+                        onChange={(e) => {
+                          setQuery(e.target.value);
+                          onQueryChange?.(e.target.value);
+                        }}
                         placeholder="Search"
                         displayValue={(assigned: any) => assigned?.name}
                       />

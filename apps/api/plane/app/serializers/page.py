@@ -23,6 +23,7 @@ from plane.db.models import (
 
 
 class PageSerializer(BaseSerializer):
+    wiki_template = serializers.CharField(required=False, allow_blank=True, write_only=True)
     is_favorite = serializers.BooleanField(read_only=True)
     labels = serializers.ListField(
         child=serializers.PrimaryKeyRelatedField(queryset=Label.objects.all()),
@@ -36,6 +37,7 @@ class PageSerializer(BaseSerializer):
     class Meta:
         model = Page
         fields = [
+            "wiki_template",
             "id",
             "name",
             "owned_by",
@@ -58,7 +60,37 @@ class PageSerializer(BaseSerializer):
         ]
         read_only_fields = ["workspace", "owned_by"]
 
+    def validate(self, attrs):
+        template = attrs.get("wiki_template")
+        if template:
+            from plane.app.views.wiki_templates import template_html
+            if self.instance or not Project.objects.filter(id=self.context.get("project_id"), is_wiki_collection=True).exists():
+                raise serializers.ValidationError({"wiki_template": "Templates can only be selected when creating a new Wiki page."})
+            template_html(template, Project.objects.get(id=self.context["project_id"]).workspace_id)
+        parent = attrs.get("parent", self.instance.parent if self.instance else None)
+        project_id = self.context.get("project_id")
+        request = self.context.get("request")
+        if parent is not None:
+            if not project_id or not ProjectPage.objects.filter(page=parent, project_id=project_id, deleted_at__isnull=True).exists():
+                raise serializers.ValidationError({"parent": "Parent must be in the same collection/project."})
+            visited = {self.instance.id} if self.instance else set()
+            node = parent
+            while node:
+                if node.id in visited:
+                    raise serializers.ValidationError({"parent": "Pages cannot form a cycle."})
+                visited.add(node.id)
+                if node.archived_at or (node.access == Page.PRIVATE_ACCESS and (not request or node.owned_by_id != request.user.id)):
+                    raise serializers.ValidationError({"parent": "Parent is unavailable or private."})
+                node = node.parent
+            access = attrs.get("access", self.instance.access if self.instance else Page.PUBLIC_ACCESS)
+            if parent.access == Page.PRIVATE_ACCESS and access != Page.PRIVATE_ACCESS:
+                raise serializers.ValidationError({"access": "A child of a private page must also be private."})
+        if self.instance:
+            attrs.pop("wiki_template", None)
+        return attrs
+
     def create(self, validated_data):
+        template = validated_data.pop("wiki_template", "")
         labels = validated_data.pop("labels", None)
         project_id = self.context["project_id"]
         owned_by_id = self.context["owned_by_id"]
@@ -66,8 +98,20 @@ class PageSerializer(BaseSerializer):
         description_binary = self.context["description_binary"]
         description_html = self.context["description_html"]
 
+        if template:
+            from plane.app.views.wiki_templates import template_html
+            description_html = template_html(template, Project.objects.get(id=project_id).workspace_id, lock=True)
+            description_json = {}
+            description_binary = None
+
         # Get the workspace id from the project
         project = Project.objects.get(pk=project_id)
+
+        # New wiki pages append after their siblings, including collections with many reordered pages.
+        if project.is_wiki_collection:
+            from django.db.models import Max
+            maximum = Page.objects.filter(projects=project, parent=validated_data.get("parent")).aggregate(value=Max("sort_order"))["value"]
+            validated_data["sort_order"] = (maximum or 0) + 1024
 
         # Create the page
         page = Page.objects.create(

@@ -74,6 +74,7 @@
     "lodash-es": "catalog:",
     "lowlight": "catalog:",
     "lucide-react": "catalog:",
+    "mermaid": "^12.2.0",
     "prosemirror-codemark": "catalog:",
     "tippy.js": "catalog:",
     "tiptap-markdown": "catalog:",

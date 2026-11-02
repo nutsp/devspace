@@ -44,6 +44,8 @@ type ChartViewRootProps = {
   canLoadMoreBlocks?: boolean;
   quickAdd?: React.ReactNode | undefined;
   showToday: boolean;
+  chartOverlay?: React.ReactNode;
+  headerContent?: (focusDate: (date: Date) => void) => React.ReactNode;
   isEpic?: boolean;
 };
 
@@ -51,6 +53,13 @@ const timelineViewHelpers = {
   week: weekView,
   month: monthView,
   quarter: quarterView,
+};
+
+const updateCurrentLeftScrollPosition = (width: number) => {
+  const scrollContainer = document.querySelector("#gantt-container") as HTMLDivElement;
+  if (!scrollContainer) return;
+
+  scrollContainer.scrollLeft = width + scrollContainer?.scrollLeft;
 };
 
 export const ChartViewRoot = observer(function ChartViewRoot(props: ChartViewRootProps) {
@@ -76,6 +85,8 @@ export const ChartViewRoot = observer(function ChartViewRoot(props: ChartViewRoo
     quickAdd,
     showToday,
     updateBlockDates,
+    chartOverlay,
+    headerContent,
     isEpic = false,
   } = props;
   // states
@@ -152,13 +163,6 @@ export const ChartViewRoot = observer(function ChartViewRoot(props: ChartViewRoo
     setItemsContainerWidth(width + scrollContainer?.scrollLeft);
   };
 
-  const updateCurrentLeftScrollPosition = (width: number) => {
-    const scrollContainer = document.querySelector("#gantt-container") as HTMLDivElement;
-    if (!scrollContainer) return;
-
-    scrollContainer.scrollLeft = width + scrollContainer?.scrollLeft;
-  };
-
   const handleScrollToCurrentSelectedDate = (currentState: ChartDataType, date: Date) => {
     const scrollContainer = document.querySelector("#gantt-container") as HTMLDivElement;
     if (!scrollContainer) return;
@@ -185,6 +189,13 @@ export const ChartViewRoot = observer(function ChartViewRoot(props: ChartViewRoo
         "border-[0.5px] border-subtle": border,
       })}
     >
+      {headerContent?.((date) => {
+        if (!currentViewData) return;
+        const direction =
+          date < currentViewData.data.startDate ? "left" : date > currentViewData.data.endDate ? "right" : undefined;
+        const next = direction ? updateCurrentViewRenderPayload(direction, currentView, date) : currentViewData;
+        if (next) setTimeout(() => handleScrollToCurrentSelectedDate(next, date));
+      })}
       <GanttChartHeader
         blockIds={blockIds}
         fullScreenMode={fullScreenMode}
@@ -215,6 +226,7 @@ export const ChartViewRoot = observer(function ChartViewRoot(props: ChartViewRoo
         updateCurrentViewRenderPayload={updateCurrentViewRenderPayload}
         quickAdd={quickAdd}
         updateBlockDates={updateBlockDates}
+        chartOverlay={chartOverlay}
         isEpic={isEpic}
       />
     </div>

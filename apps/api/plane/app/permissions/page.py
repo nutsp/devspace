@@ -2,7 +2,7 @@
 # SPDX-License-Identifier: AGPL-3.0-only
 # See the LICENSE file for details.
 
-from plane.db.models import ProjectMember, Page
+from plane.db.models import ProjectMember, Page, Project, WorkspaceMember
 from plane.app.permissions import ROLE
 
 
@@ -85,6 +85,25 @@ class ProjectPagePermission(BasePermission):
         Hook for extended access checking
         Returns: True (allow), False (deny), None (continue with normal flow)
         """
+        if Project.objects.filter(id=project_id, workspace__slug=slug, is_wiki_collection=True).exists():
+            member = WorkspaceMember.objects.filter(workspace__slug=slug, member=request.user, is_active=True).first()
+            if not member:
+                return False, None
+            if member.role < MEMBER and request.method not in SAFE_METHODS:
+                return False, None
+            page_id = request.parser_context.get("kwargs", {}).get("page_id") if request.parser_context else None
+            if page_id:
+                node = Page.objects.filter(id=page_id).select_related("parent").first()
+                seen = set()
+                while node:
+                    if node.id in seen or node.archived_at or (node.access == Page.PRIVATE_ACCESS and node.owned_by_id != request.user.id):
+                        return False, None
+                    seen.add(node.id)
+                    if not node.projects.filter(id=project_id).exists():
+                        return False, None
+                    node = node.parent
+            ProjectMember.objects.update_or_create(project_id=project_id, member=request.user,
+                defaults={"role": member.role, "is_active": True})
         role = self._check_project_member_access(request, slug, project_id)
         if not role:
             return False, None

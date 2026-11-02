@@ -1,3 +1,4 @@
+import { WikiService } from "@/services/wiki.service";
 /**
  * Copyright (c) 2023-present Plane Software, Inc. and contributors
  * SPDX-License-Identifier: AGPL-3.0-only
@@ -37,6 +38,7 @@ export const useEditorConfig = () => {
       const { projectId, uploadFile, duplicateFile, workspaceId, workspaceSlug } = args;
 
       return {
+        renderPlantUML: (source, dark) => new WikiService().renderPlantUML(workspaceSlug, source, dark),
         assetsUploadStatus: assetsUploadPercentage,
         cancel: fileService.cancelUpload,
         checkIfAssetExists: async (assetId: string) => {

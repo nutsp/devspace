@@ -1,3 +1,32 @@
+# Devspace
+
+A shared workspace for software teams, built on [Plane Community](https://github.com/makeplane/plane) v1.4.3.
+
+## Custom features
+
+- **Work**: Plane project and work item workflows, with a shared app navigation rail.
+- **Wiki**: Collections, nested pages, drag-and-drop ordering, full-text search, graph/backlinks, templates and periodic document reviews.
+- **Diagrams**: Mermaid and local PlantUML Code/Preview in Wiki pages and templates, using native autosave.
+- **Timesheets**: Weekly entries by project/work item, per-project Project Lead review and Excel export.
+- **Milestones**: Project milestones, workspace overview, risk indicators and timeline markers.
+- **Read-only integration API**: Permission-checked Work, Wiki, Timesheet and Milestone endpoints for the local MCP adapter.
+
+The active local demo is at `http://localhost:8089/software-team-demo/`. This repository contains source code, not the demo database, uploads, credentials or machine-specific MCP configuration. The MCP adapter and runtime configuration are currently maintained separately.
+
+## Development
+
+Use the upstream setup and development instructions below for the monorepo. After installing dependencies, `./build-wiki.sh` builds the customized web, API and Live Docker images. These images extend Plane v1.4.3; running a new environment also requires runtime configuration, migrations and backing services. Image building alone does not start an instance.
+
+PlantUML preview requires the local renderer configured by the Wiki diagram API. Keep it isolated from public networks; it is not configured by the upstream Compose file.
+
+See [customization notes](docs/devspace.md) for source locations and verification commands.
+
+## Upstream and license
+
+Devspace is an independent customization of Plane Community. Original notices and [AGPL-3.0 license](LICENSE.txt) are retained. The original Plane README follows for upstream attribution and setup references.
+
+---
+
 <br /><br />
 
 <p align="center">
@@ -42,7 +71,7 @@ Getting started with Plane is simple. Choose the setup that works best for you:
 | -------------------- | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
 | Docker               | [![Docker](https://img.shields.io/badge/docker-%230db7ed.svg?style=for-the-badge&logo=docker&logoColor=white)](https://developers.plane.so/self-hosting/methods/docker-compose)         |
 | Kubernetes           | [![Kubernetes](https://img.shields.io/badge/kubernetes-%23326ce5.svg?style=for-the-badge&logo=kubernetes&logoColor=white)](https://developers.plane.so/self-hosting/methods/kubernetes) |
-| Managed hosting      | [<img alt="Deploy with Zenith" src="https://cdn.zenith.hosting/buttons/deploy-with-zenith.svg" height="40">](https://zenith.hosting/host/plane) |
+| Managed hosting      | [<img alt="Deploy with Zenith" src="https://cdn.zenith.hosting/buttons/deploy-with-zenith.svg" height="40">](https://zenith.hosting/host/plane)                                         |
 
 `Instance admins` can configure instance settings with [God mode](https://developers.plane.so/self-hosting/govern/instance-admin).
 

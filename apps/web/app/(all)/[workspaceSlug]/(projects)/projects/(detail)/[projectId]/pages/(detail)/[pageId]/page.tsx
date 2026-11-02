@@ -7,6 +7,7 @@
 import { useCallback, useEffect, useMemo } from "react";
 import { observer } from "mobx-react";
 import Link from "next/link";
+import { Navigate } from "react-router";
 import useSWR from "swr";
 // plane types
 import { getButtonStyling } from "@plane/propel/button";
@@ -25,6 +26,7 @@ import { PageRoot } from "@/components/pages/editor/page-root";
 import { useEditorConfig } from "@/hooks/editor";
 import { useEditorAsset } from "@/hooks/store/use-editor-asset";
 import { useWorkspace } from "@/hooks/store/use-workspace";
+import { useProject } from "@/hooks/store/use-project";
 import { useAppRouter } from "@/hooks/use-app-router";
 // plane web hooks
 import { EPageStoreType, usePage, usePageStore } from "@/hooks/store";
@@ -39,10 +41,19 @@ const projectPageVersionService = new ProjectPageVersionService();
 
 const storeType = EPageStoreType.PROJECT;
 
-function PageDetailsPage({ params }: Route.ComponentProps) {
+function PageEditor({
+  workspaceSlug,
+  projectId,
+  pageId,
+}: {
+  workspaceSlug: string;
+  projectId: string;
+  pageId: string;
+}) {
   // router
   const router = useAppRouter();
-  const { workspaceSlug, projectId, pageId } = params;
+  const { getProjectById } = useProject();
+  const pagePath = getProjectById(projectId)?.is_wiki_collection ? "wiki" : "projects";
   // store hooks
   const { createPage, fetchPageDetails } = usePageStore(storeType);
   const page = usePage({
@@ -79,27 +90,27 @@ function PageDetailsPage({ params }: Route.ComponentProps) {
   const pageRootHandlers: TPageRootHandlers = useMemo(
     () => ({
       create: createPage,
-      fetchAllVersions: async (pageId) =>
-        await projectPageVersionService.fetchAllVersions(workspaceSlug, projectId, pageId),
+      fetchAllVersions: async (requestedPageId) =>
+        await projectPageVersionService.fetchAllVersions(workspaceSlug, projectId, requestedPageId),
       fetchDescriptionBinary: async () => {
         if (!id) return;
         return await projectPageService.fetchDescriptionBinary(workspaceSlug, projectId, id);
       },
       fetchEntity: fetchEntityCallback,
-      fetchVersionDetails: async (pageId, versionId) =>
-        await projectPageVersionService.fetchVersionById(workspaceSlug, projectId, pageId, versionId),
-      restoreVersion: async (pageId, versionId) =>
-        await projectPageVersionService.restoreVersion(workspaceSlug, projectId, pageId, versionId),
-      getRedirectionLink: (pageId) => {
-        if (pageId) {
-          return `/${workspaceSlug}/projects/${projectId}/pages/${pageId}`;
+      fetchVersionDetails: async (requestedPageId, versionId) =>
+        await projectPageVersionService.fetchVersionById(workspaceSlug, projectId, requestedPageId, versionId),
+      restoreVersion: async (requestedPageId, versionId) =>
+        await projectPageVersionService.restoreVersion(workspaceSlug, projectId, requestedPageId, versionId),
+      getRedirectionLink: (requestedPageId) => {
+        if (requestedPageId) {
+          return `/${workspaceSlug}/${pagePath}/${projectId}/pages/${requestedPageId}`;
         } else {
-          return `/${workspaceSlug}/projects/${projectId}/pages`;
+          return `/${workspaceSlug}/${pagePath}/${projectId}/pages`;
         }
       },
       updateDescription: updateDescription ?? (async () => {}),
     }),
-    [createPage, fetchEntityCallback, id, updateDescription, workspaceSlug, projectId]
+    [createPage, fetchEntityCallback, id, updateDescription, workspaceSlug, projectId, pagePath]
   );
   // page root config
   const pageRootConfig: TPageRootConfig = useMemo(
@@ -166,7 +177,7 @@ function PageDetailsPage({ params }: Route.ComponentProps) {
           The page you are trying to access doesn{"'"}t exist or you don{"'"}t have permission to view it.
         </p>
         <Link
-          href={`/${workspaceSlug}/projects/${projectId}/pages`}
+          href={`/${workspaceSlug}/${pagePath}/${projectId}/pages`}
           className={cn(getButtonStyling("secondary", "base"), "mt-5")}
         >
           View other Pages
@@ -197,4 +208,11 @@ function PageDetailsPage({ params }: Route.ComponentProps) {
   );
 }
 
-export default observer(PageDetailsPage);
+export const ObservablePageEditor = observer(PageEditor);
+export default observer(function PageDetailsPage({ params }: Route.ComponentProps) {
+  const { getProjectById } = useProject();
+  if (getProjectById(params.projectId)?.is_wiki_collection) {
+    return <Navigate replace to={`/${params.workspaceSlug}/wiki/${params.projectId}/pages/${params.pageId}/`} />;
+  }
+  return <ObservablePageEditor {...params} />;
+});

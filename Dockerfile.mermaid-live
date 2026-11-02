@@ -1,0 +1,3 @@
+FROM makeplane/plane-live:v1.4.3
+# Keep the original service and dependencies; update only the shared editor converter.
+COPY . /app/packages/editor/dist

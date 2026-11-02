@@ -17,6 +17,7 @@ export enum EUserProjectRoles {
 }
 
 export interface IPartialProject {
+  is_wiki_collection?: boolean;
   id: string;
   name: string;
   identifier: string;

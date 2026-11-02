@@ -117,3 +117,11 @@ packages/i18n/src/types/keys.generated.ts
 
 # Local security notes (not for version control)
 /security/
+
+# Local demo data and integration credentials
+*.dump
+*.dump.tmp
+*.private.*
+credentials*.json
+docs-credentials.json
+plane.env

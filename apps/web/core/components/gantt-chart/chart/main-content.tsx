@@ -56,6 +56,7 @@ type Props = {
     targetDate?: Date
   ) => ChartDataType | undefined;
   quickAdd?: React.ReactNode | undefined;
+  chartOverlay?: React.ReactNode;
   isEpic?: boolean;
 };
 
@@ -81,6 +82,7 @@ export const GanttChartMainContent = observer(function GanttChartMainContent(pro
     updateCurrentViewRenderPayload,
     quickAdd,
     updateBlockDates,
+    chartOverlay,
     isEpic = false,
   } = props;
   // refs
@@ -195,6 +197,7 @@ export const GanttChartMainContent = observer(function GanttChartMainContent(pro
               />
               <div className="relative h-max min-h-full flex-shrink-0 flex-grow">
                 <ActiveChartView />
+                {chartOverlay}
                 {currentViewData && (
                   <div
                     className="relative h-full"

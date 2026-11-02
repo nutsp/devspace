@@ -34,6 +34,8 @@ type GanttChartRootProps = {
   bottomSpacing?: boolean;
   showAllBlocks?: boolean;
   showToday?: boolean;
+  chartOverlay?: React.ReactNode;
+  headerContent?: (focusDate: (date: Date) => void) => React.ReactNode;
   isEpic?: boolean;
 };
 
@@ -60,6 +62,8 @@ export const GanttChartRoot = observer(function GanttChartRoot(props: GanttChart
     showToday = true,
     quickAdd,
     updateBlockDates,
+    chartOverlay,
+    headerContent,
     isEpic = false,
   } = props;
 
@@ -68,7 +72,7 @@ export const GanttChartRoot = observer(function GanttChartRoot(props: GanttChart
   // update the timeline store with updated blockIds
   useEffect(() => {
     setBlockIds(blockIds);
-  }, [blockIds]);
+  }, [blockIds, setBlockIds]);
 
   return (
     <ChartViewRoot
@@ -93,6 +97,8 @@ export const GanttChartRoot = observer(function GanttChartRoot(props: GanttChart
       quickAdd={quickAdd}
       showToday={showToday}
       updateBlockDates={updateBlockDates}
+      chartOverlay={chartOverlay}
+      headerContent={headerContent}
       isEpic={isEpic}
     />
   );

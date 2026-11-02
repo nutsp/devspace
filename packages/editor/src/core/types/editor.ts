@@ -118,6 +118,7 @@ export type CoreEditorRefApi = {
   ) => Record<string, any> | undefined;
   getCoordsFromPos: (pos?: number) => ReturnType<EditorView["coordsAtPos"]> | undefined;
   getCurrentCursorPosition: () => number | undefined;
+  setDocumentTitle: (value: string) => void;
   getDocument: () => {
     binary: Uint8Array | null;
     html: string;
@@ -128,6 +129,7 @@ export type CoreEditorRefApi = {
   getMarkDown: () => string;
   copyMarkdownToClipboard: () => void;
   getSelectedText: () => string | null;
+  insertPageLink: (href: string, label: string) => void;
   insertText: (contentHTML: string, insertOnNextLine?: boolean) => void;
   isAnyDropbarOpen: () => boolean;
   isEditorReadyToDiscard: () => boolean;

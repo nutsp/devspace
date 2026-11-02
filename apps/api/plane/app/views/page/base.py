@@ -1,3 +1,4 @@
+from django.db import transaction
 # Copyright (c) 2023-present Plane Software, Inc. and contributors
 # SPDX-License-Identifier: AGPL-3.0-only
 # See the LICENSE file for details.
@@ -95,7 +96,7 @@ class PageViewSet(BaseViewSet):
                 projects__project_projectmember__is_active=True,
                 projects__archived_at__isnull=True,
             )
-            .filter(parent__isnull=True)
+            .filter(Q(parent__isnull=True) if self.action == "list" else Q())
             .filter(Q(owned_by=self.request.user) | Q(access=0))
             .prefetch_related("projects")
             .select_related("workspace")
@@ -141,12 +142,15 @@ class PageViewSet(BaseViewSet):
             .distinct()
         )
 
+    @transaction.atomic
     def create(self, request, slug, project_id):
+        Project.objects.select_for_update().get(id=project_id, workspace__slug=slug)
         serializer = PageSerializer(
             data=request.data,
             context={
                 "project_id": project_id,
                 "owned_by_id": request.user.id,
+                "request": request,
                 "description_json": request.data.get("description_json", {}),
                 "description_binary": request.data.get("description_binary", None),
                 "description_html": request.data.get("description_html", "<p></p>"),
@@ -166,7 +170,9 @@ class PageViewSet(BaseViewSet):
             return Response(serializer.data, status=status.HTTP_201_CREATED)
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
+    @transaction.atomic
     def partial_update(self, request, slug, project_id, page_id):
+        Project.objects.select_for_update().get(id=project_id, workspace__slug=slug)
         try:
             page = Page.objects.get(
                 pk=page_id,
@@ -194,7 +200,7 @@ class PageViewSet(BaseViewSet):
                     status=status.HTTP_400_BAD_REQUEST,
                 )
 
-            serializer = PageDetailSerializer(page, data=request.data, partial=True)
+            serializer = PageDetailSerializer(page, data=request.data, partial=True, context={"request": request, "project_id": project_id})
             page_description = page.description_html
             if serializer.is_valid():
                 serializer.save()

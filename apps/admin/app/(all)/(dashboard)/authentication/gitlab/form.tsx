@@ -113,7 +113,7 @@ export function InstanceGitlabConfigForm(props: Props) {
           .
         </>
       ),
-      placeholder: "gloas-f79cfa9a03c97f6ffab303177a5a6778a53c61e3914ba093412f68a9298a1b28",
+      placeholder: "GitLab OAuth application secret",
       error: Boolean(errors.GITLAB_CLIENT_SECRET),
       required: true,
     },

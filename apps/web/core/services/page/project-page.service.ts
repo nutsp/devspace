@@ -41,7 +41,11 @@ export class ProjectPageService extends APIService {
       });
   }
 
-  async create(workspaceSlug: string, projectId: string, data: Partial<TPage>): Promise<TPage> {
+  async create(
+    workspaceSlug: string,
+    projectId: string,
+    data: Partial<TPage> & { parent?: string | null; wiki_template?: string }
+  ): Promise<TPage> {
     return this.post(`/api/workspaces/${workspaceSlug}/projects/${projectId}/pages/`, data)
       .then((response) => response?.data)
       .catch((error) => {
@@ -49,7 +53,12 @@ export class ProjectPageService extends APIService {
       });
   }
 
-  async update(workspaceSlug: string, projectId: string, pageId: string, data: Partial<TPage>): Promise<TPage> {
+  async update(
+    workspaceSlug: string,
+    projectId: string,
+    pageId: string,
+    data: Partial<TPage> & { parent?: string | null }
+  ): Promise<TPage> {
     return this.patch(`/api/workspaces/${workspaceSlug}/projects/${projectId}/pages/${pageId}/`, data)
       .then((response) => response?.data)
       .catch((error) => {

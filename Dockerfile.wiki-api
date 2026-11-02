@@ -1,0 +1,2 @@
+FROM makeplane/plane-backend:v1.4.3
+COPY apps/api/plane /code/plane

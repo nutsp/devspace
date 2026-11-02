@@ -1,3 +1,4 @@
+import { setDocumentTitle } from "./set-document-title";
 /**
  * Copyright (c) 2023-present Plane Software, Inc. and contributors
  * SPDX-License-Identifier: AGPL-3.0-only
@@ -140,7 +141,7 @@ export const getEditorRefHelpers = (args: TArgs): EditorRefApi => {
       const { itemKey } = props;
       const editorItems = getEditorMenuItems(editor);
 
-      const getEditorMenuItem = (itemKey: TEditorCommands) => editorItems.find((item) => item.key === itemKey);
+      const getEditorMenuItem = (commandKey: TEditorCommands) => editorItems.find((item) => item.key === commandKey);
 
       const item = getEditorMenuItem(itemKey);
       if (item) {
@@ -149,7 +150,7 @@ export const getEditorRefHelpers = (args: TArgs): EditorRefApi => {
         console.warn(`No command found for item: ${itemKey}`);
       }
     },
-    focus: (args) => editor?.commands.focus(args),
+    focus: (position) => editor?.commands.focus(position),
     getCoordsFromPos: (pos) => editor?.view.coordsAtPos(pos ?? editor.state.selection.from),
     getCurrentCursorPosition: () => editor?.state.selection.from,
     getAttributesWithExtendedMark: (mark, attribute) => {
@@ -178,6 +179,16 @@ export const getEditorRefHelpers = (args: TArgs): EditorRefApi => {
       const selection = nodesArray.join("");
       return selection;
     },
+    insertPageLink: (href, label) => {
+      if (!editor || editor.isDestroyed || !editor.isEditable) throw new Error("The editor is not ready.");
+      if (!href.startsWith("/") || href.startsWith("//")) throw new Error("A relative page URL is required.");
+      // A text node keeps page names as text, including characters such as < and &.
+      editor
+        .chain()
+        .focus()
+        .insertContent({ type: "text", text: label, marks: [{ type: "link", attrs: { href, target: "_self" } }] })
+        .run();
+    },
     insertText: (contentHTML, insertOnNextLine) => {
       if (!editor) return;
       const { from, to, empty } = editor.state.selection;
@@ -195,7 +206,7 @@ export const getEditorRefHelpers = (args: TArgs): EditorRefApi => {
       const { itemKey } = props;
       const editorItems = getEditorMenuItems(editor);
 
-      const getEditorMenuItem = (itemKey: TEditorCommands) => editorItems.find((item) => item.key === itemKey);
+      const getEditorMenuItem = (commandKey: TEditorCommands) => editorItems.find((item) => item.key === commandKey);
       const item = getEditorMenuItem(itemKey);
       if (!item) return false;
 
@@ -277,6 +288,10 @@ export const getEditorRefHelpers = (args: TArgs): EditorRefApi => {
       } catch (error) {
         console.error("An error occurred while setting focus at position:", error);
       }
+    },
+    setDocumentTitle: (value) => {
+      if (!provider?.document) throw new Error("The collaborative editor is not ready.");
+      setDocumentTitle(provider.document, value);
     },
     setProviderDocument: (value) => {
       const document = provider?.document;

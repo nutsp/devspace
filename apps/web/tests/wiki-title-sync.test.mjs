@@ -1,0 +1,24 @@
+import { test } from "node:test";
+import assert from "node:assert/strict";
+import { createRequire } from "node:module";
+import { setDocumentTitle } from "../../../packages/editor/src/core/helpers/set-document-title.ts";
+const require = createRequire(new URL("../../../packages/editor/package.json", import.meta.url));
+const Y = await import(require.resolve("yjs").replace("yjs.cjs", "yjs.mjs"));
+test("renaming a page merges the shared title while retaining body and existing document identity", () => {
+  const doc = new Y.Doc();
+  const body = doc.getXmlFragment("default");
+  const paragraph = new Y.XmlElement("paragraph");
+  const text = new Y.XmlText();
+  text.insert(0, "Keep this body");
+  paragraph.insert(0, [text]);
+  body.insert(0, [paragraph]);
+  setDocumentTitle(doc, "Old title");
+  const peer = new Y.Doc();
+  Y.applyUpdate(peer, Y.encodeStateAsUpdate(doc));
+  const vector = Y.encodeStateVector(peer);
+  setDocumentTitle(doc, "Review <notes> & checklist");
+  Y.applyUpdate(peer, Y.encodeStateAsUpdate(doc, vector));
+  assert.equal(peer.getXmlFragment("title").get(0).get(0).toDelta()[0].insert, "Review <notes> & checklist");
+  assert.equal(peer.getXmlFragment("default").get(0).get(0).toString(), "Keep this body");
+  assert.equal(peer.getXmlFragment("title").length, 1);
+});

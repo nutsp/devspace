@@ -90,3 +90,7 @@ from .device import Device, DeviceSession
 from .sticky import Sticky
 
 from .description import Description, DescriptionVersion
+from .timesheet import Timesheet, TimeEntry, TimesheetEvent
+from .milestone import Milestone, MilestoneIssue
+
+from .wiki_template import WikiTemplate

@@ -181,6 +181,26 @@ export const getSlashCommandFilteredSections =
             command: ({ editor, range }) => editor.chain().focus().deleteRange(range).toggleCodeBlock().run(),
           },
           {
+            commandKey: "code",
+            key: "mermaid",
+            title: "Mermaid",
+            description: "Create a diagram with Code and Preview.",
+            searchTerms: ["diagram", "flowchart", "sequence", "mermaid"],
+            icon: <Code2 className="size-3.5" />,
+            command: ({ editor, range }) =>
+              editor.chain().focus().deleteRange(range).setCodeBlock({ language: "mermaid" }).run(),
+          },
+          {
+            commandKey: "code",
+            key: "plantuml",
+            title: "PlantUML",
+            description: "Create a UML diagram with Code and Preview.",
+            searchTerms: ["uml", "diagram", "sequence", "plantuml"],
+            icon: <Code2 className="size-3.5" />,
+            command: ({ editor, range }) =>
+              editor.chain().focus().deleteRange(range).setCodeBlock({ language: "plantuml" }).run(),
+          },
+          {
             commandKey: "callout",
             key: "callout",
             title: "Callout",
@@ -319,6 +339,7 @@ export const getSlashCommandFilteredSections =
       }
     });
 
+    // oxlint-disable-next-line no-map-spread -- Filtering must preserve the shared section definitions.
     const filteredSlashSections = SLASH_COMMAND_SECTIONS.map((section) => ({
       ...section,
       items: section.items.filter((item) => {

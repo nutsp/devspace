@@ -51,6 +51,15 @@ export const coreRoutes: RouteConfigEntry[] = [
     // WORKSPACE-SCOPED ROUTES
     // ======================================================================
     layout("./(all)/[workspaceSlug]/layout.tsx", [
+      layout("./(all)/[workspaceSlug]/wiki/layout.tsx", [
+        route(":workspaceSlug/wiki", "./(all)/[workspaceSlug]/wiki/page.tsx"),
+        route(":workspaceSlug/wiki/templates", "./(all)/[workspaceSlug]/wiki/templates.tsx"),
+        route(":workspaceSlug/wiki/templates/:templateId", "./(all)/[workspaceSlug]/wiki/template-editor.tsx"),
+        route(":workspaceSlug/wiki/library", "./(all)/[workspaceSlug]/wiki/library.tsx"),
+        route(":workspaceSlug/wiki/:projectId", "./(all)/[workspaceSlug]/wiki/collection.tsx"),
+        route(":workspaceSlug/wiki/:projectId/pages/:pageId", "./(all)/[workspaceSlug]/wiki/editor.tsx"),
+      ]),
+      route(":workspaceSlug/timesheet", "./(all)/[workspaceSlug]/timesheet/page.tsx"),
       // ====================================================================
       // PROJECTS APP SECTION - WORKSPACE LEVEL ROUTES
       // ====================================================================
@@ -61,6 +70,8 @@ export const coreRoutes: RouteConfigEntry[] = [
 
         // Workspace Home
         route(":workspaceSlug", "./(all)/[workspaceSlug]/(projects)/page.tsx"),
+
+        route(":workspaceSlug/milestones", "./(all)/[workspaceSlug]/(projects)/milestones/page.tsx"),
 
         // Active Cycles
         layout("./(all)/[workspaceSlug]/(projects)/active-cycles/layout.tsx", [
@@ -144,6 +155,11 @@ export const coreRoutes: RouteConfigEntry[] = [
           route(
             ":workspaceSlug/projects/:projectId/issues/:issueId",
             "./(all)/[workspaceSlug]/(projects)/projects/(detail)/[projectId]/issues/(detail)/[issueId]/page.tsx"
+          ),
+
+          route(
+            ":workspaceSlug/projects/:projectId/milestones",
+            "./(all)/[workspaceSlug]/(projects)/projects/(detail)/[projectId]/milestones/page.tsx"
           ),
 
           // Cycle Detail

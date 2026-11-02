@@ -1,3 +1,4 @@
+import { Flag } from "lucide-react";
 /**
  * Copyright (c) 2023-present Plane Software, Inc. and contributors
  * SPDX-License-Identifier: AGPL-3.0-only
@@ -20,6 +21,8 @@ import { cn } from "@plane/utils";
 
 export const getSidebarNavigationItemIcon = (key: string, className: string = "") => {
   switch (key) {
+    case "milestones":
+      return <Flag className={cn("size-4 flex-shrink-0", className)} />;
     case "home":
       return <HomeIcon className={cn("size-4 flex-shrink-0", className)} />;
     case "inbox":

@@ -15,7 +15,10 @@ from .work_item import urlpatterns as work_item_patterns
 from .invite import urlpatterns as invite_patterns
 from .sticky import urlpatterns as sticky_patterns
 
+from .workspace_tools import urlpatterns as workspace_tool_patterns
+
 urlpatterns = [
+    *workspace_tool_patterns,
     *asset_patterns,
     *cycle_patterns,
     *intake_patterns,

@@ -1,3 +1,4 @@
+import { IssueMilestoneActivity } from "./actions/milestone";
 /**
  * Copyright (c) 2023-present Plane Software, Inc. and contributors
  * SPDX-License-Identifier: AGPL-3.0-only
@@ -52,6 +53,8 @@ export const IssueActivityItem = observer(function IssueActivityItem(props: TIss
 
   const activityField = getActivityById(activityId)?.field;
   switch (activityField) {
+    case "milestone":
+      return <IssueMilestoneActivity {...componentDefaultProps} />;
     case null: // default issue creation
       return <IssueDefaultActivity {...componentDefaultProps} />;
     case "state":

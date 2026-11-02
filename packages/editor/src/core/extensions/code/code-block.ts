@@ -10,6 +10,7 @@ import { Plugin, PluginKey } from "@tiptap/pm/state";
 import { CORE_EXTENSIONS } from "@/constants/extension";
 
 export type CodeBlockOptions = {
+  renderPlantUML?: (source: string, dark: boolean) => Promise<string>;
   /**
    * Adds a prefix to language classes that are applied to code tags.
    * Defaults to `'language-'`.
@@ -76,7 +77,7 @@ export const CodeBlock = Node.create<CodeBlockOptions>({
         default: null,
         parseHTML: (element) => {
           const { languageClassPrefix } = this.options;
-          const classNames = [...(element.firstElementChild?.classList || [])];
+          const classNames = (element.querySelector("code")?.getAttribute("class") ?? "").split(/\s+/);
           const languages = classNames
             .filter((className) => className.startsWith(languageClassPrefix))
             .map((className) => className.replace(languageClassPrefix, ""));

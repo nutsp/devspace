@@ -22,8 +22,33 @@ from .webhook import urlpatterns as webhook_urls
 from .workspace import urlpatterns as workspace_urls
 from .timezone import urlpatterns as timezone_urls
 from .exporter import urlpatterns as exporter_urls
+from django.urls import path
+from plane.app.views.wiki_search import WikiSearchEndpoint
+from plane.app.views.wiki_graph import WikiGraphEndpoint
+from plane.app.views.wiki import WikiCollectionsEndpoint, WikiPagesEndpoint, WikiPageMoveEndpoint
+from plane.app.views.timesheet import TimesheetOptionsEndpoint, MyTimesheetEndpoint, TimesheetInboxEndpoint, TimesheetDetailEndpoint
+
+from plane.app.views.wiki_review import WikiReviewEndpoint
+from plane.app.views.wiki_diagrams import WikiPlantUMLPreviewEndpoint
+from plane.app.views.wiki_templates import WikiTemplatesEndpoint, WikiTemplateDetailEndpoint
 
 urlpatterns = [
+    path("workspaces/<str:slug>/wiki/diagrams/plantuml/", WikiPlantUMLPreviewEndpoint.as_view()),
+    path("workspaces/<str:slug>/wiki/templates/", WikiTemplatesEndpoint.as_view()),
+    path("workspaces/<str:slug>/wiki/templates/<uuid:template_id>/", WikiTemplateDetailEndpoint.as_view()),
+    path("workspaces/<str:slug>/wiki/collections/<uuid:project_id>/pages/<uuid:page_id>/review/", WikiReviewEndpoint.as_view()),
+    path("workspaces/<str:slug>/timesheets/options/", TimesheetOptionsEndpoint.as_view()),
+    path("workspaces/<str:slug>/timesheets/my/", MyTimesheetEndpoint.as_view()),
+    path("workspaces/<str:slug>/timesheets/review/", TimesheetInboxEndpoint.as_view()),
+    path("workspaces/<str:slug>/timesheets/<uuid:sheet_id>/", TimesheetDetailEndpoint.as_view()),
+    path("workspaces/<str:slug>/timesheets/<uuid:sheet_id>/<str:action>/", TimesheetDetailEndpoint.as_view()),
+    path("workspaces/<str:slug>/timesheets/<uuid:sheet_id>/entries/<uuid:entry_id>/<str:action>/", TimesheetDetailEndpoint.as_view()),
+    path("workspaces/<str:slug>/wiki/collections/", WikiCollectionsEndpoint.as_view()),
+    path("workspaces/<str:slug>/wiki/collections/<uuid:project_id>/", WikiCollectionsEndpoint.as_view()),
+    path("workspaces/<str:slug>/wiki/search/", WikiSearchEndpoint.as_view()),
+    path("workspaces/<str:slug>/wiki/pages/", WikiPagesEndpoint.as_view()),
+    path("workspaces/<str:slug>/wiki/graph/", WikiGraphEndpoint.as_view()),
+    path("workspaces/<str:slug>/wiki/collections/<uuid:project_id>/pages/<uuid:page_id>/move/", WikiPageMoveEndpoint.as_view()),
     *analytic_urls,
     *asset_urls,
     *cycle_urls,
@@ -45,3 +70,15 @@ urlpatterns = [
     *timezone_urls,
     *exporter_urls,
 ]
+
+from plane.app.views.milestone import MilestonesEndpoint, MilestoneWorkItemsEndpoint, MilestoneAssignmentEndpoint
+urlpatterns += [
+    path("workspaces/<str:slug>/projects/<uuid:project_id>/milestones/", MilestonesEndpoint.as_view()),
+    path("workspaces/<str:slug>/projects/<uuid:project_id>/milestones/work-items/", MilestoneWorkItemsEndpoint.as_view()),
+    path("workspaces/<str:slug>/projects/<uuid:project_id>/milestones/work-items/<uuid:issue_id>/", MilestoneAssignmentEndpoint.as_view()),
+    path("workspaces/<str:slug>/projects/<uuid:project_id>/milestones/<uuid:pk>/", MilestonesEndpoint.as_view()),
+    path("workspaces/<str:slug>/projects/<uuid:project_id>/milestones/<uuid:pk>/work-items/", MilestoneWorkItemsEndpoint.as_view()),
+]
+
+from plane.app.views.milestone import WorkspaceMilestonesEndpoint
+urlpatterns += [path("workspaces/<str:slug>/milestones/", WorkspaceMilestonesEndpoint.as_view())]
