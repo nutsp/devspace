@@ -20,14 +20,14 @@ import "@fontsource/material-symbols-rounded";
 // oxlint-disable-next-line import/no-unassigned-import -- Load the application font styles.
 import "@fontsource/ibm-plex-mono";
 
-const APP_TITLE = "Devspace Admin";
-const APP_DESCRIPTION = "Manage your Devspace instance and authentication settings.";
+const APP_TITLE = "DevSpace Admin";
+const APP_DESCRIPTION = "Manage your DevSpace instance and authentication settings.";
 
 export const links: LinksFunction = () => [
-  { rel: "apple-touch-icon", sizes: "180x180", href: `${import.meta.env.BASE_URL}brand/devspace-icon-v1-180.png` },
-  { rel: "icon", type: "image/png", sizes: "32x32", href: `${import.meta.env.BASE_URL}brand/devspace-icon-v1-32.png` },
-  { rel: "icon", type: "image/png", sizes: "16x16", href: `${import.meta.env.BASE_URL}brand/devspace-icon-v1-16.png` },
-  { rel: "shortcut icon", href: `${import.meta.env.BASE_URL}brand/devspace-favicon-v1.ico` },
+  { rel: "apple-touch-icon", sizes: "180x180", href: `${import.meta.env.BASE_URL}brand/devspace-icon-v2-180.png` },
+  { rel: "icon", type: "image/png", sizes: "32x32", href: `${import.meta.env.BASE_URL}brand/devspace-icon-v2-32.png` },
+  { rel: "icon", type: "image/png", sizes: "16x16", href: `${import.meta.env.BASE_URL}brand/devspace-icon-v2-16.png` },
+  { rel: "shortcut icon", href: `${import.meta.env.BASE_URL}brand/devspace-favicon-v2.ico` },
   { rel: "manifest", href: `${import.meta.env.BASE_URL}site.webmanifest.json` },
   { rel: "stylesheet", href: globalStyles },
   {

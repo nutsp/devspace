@@ -2,7 +2,7 @@ import type { Meta, StoryObj } from "@storybook/react";
 import { DevspaceLogo, DevspaceMark } from "./devspace-brand";
 
 const meta: Meta<typeof DevspaceLogo> = {
-  title: "Brand/Devspace",
+  title: "Brand/DevSpace",
   component: DevspaceLogo,
 };
 export default meta;

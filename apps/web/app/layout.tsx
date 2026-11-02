@@ -40,16 +40,16 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
           rel="icon"
           type="image/png"
           sizes="32x32"
-          href={`${import.meta.env.BASE_URL}brand/devspace-icon-v1-32.png`}
+          href={`${import.meta.env.BASE_URL}brand/devspace-icon-v2-32.png`}
         />
         <link
           rel="icon"
           type="image/png"
           sizes="16x16"
-          href={`${import.meta.env.BASE_URL}brand/devspace-icon-v1-16.png`}
+          href={`${import.meta.env.BASE_URL}brand/devspace-icon-v2-16.png`}
         />
         <link rel="manifest" href={`${import.meta.env.BASE_URL}site.webmanifest.json`} />
-        <link rel="shortcut icon" href={`${import.meta.env.BASE_URL}brand/devspace-favicon-v1.ico`} />
+        <link rel="shortcut icon" href={`${import.meta.env.BASE_URL}brand/devspace-favicon-v2.ico`} />
         {/* Meta info for PWA */}
         <meta name="application-name" content={DEVSPACE_NAME} />
         <meta name="apple-mobile-web-app-capable" content="yes" />
@@ -57,16 +57,16 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
         <meta name="apple-mobile-web-app-title" content={DEVSPACE_NAME} />
         <meta name="format-detection" content="telephone=no" />
         <meta name="mobile-web-app-capable" content="yes" />
-        <link rel="apple-touch-icon" href={`${import.meta.env.BASE_URL}brand/devspace-icon-v1-512.png`} />
+        <link rel="apple-touch-icon" href={`${import.meta.env.BASE_URL}brand/devspace-icon-v2-512.png`} />
         <link
           rel="apple-touch-icon"
           sizes="180x180"
-          href={`${import.meta.env.BASE_URL}brand/devspace-icon-v1-180.png`}
+          href={`${import.meta.env.BASE_URL}brand/devspace-icon-v2-180.png`}
         />
         <link
           rel="apple-touch-icon"
           sizes="512x512"
-          href={`${import.meta.env.BASE_URL}brand/devspace-icon-v1-512.png`}
+          href={`${import.meta.env.BASE_URL}brand/devspace-icon-v2-512.png`}
         />
       </head>
       <body>

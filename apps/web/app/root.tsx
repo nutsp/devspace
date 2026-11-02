@@ -33,13 +33,13 @@ import "@fontsource/material-symbols-rounded";
 import "@fontsource/ibm-plex-mono";
 
 export const links: LinksFunction = () => [
-  { rel: "icon", type: "image/png", sizes: "32x32", href: `${import.meta.env.BASE_URL}brand/devspace-icon-v1-32.png` },
-  { rel: "icon", type: "image/png", sizes: "16x16", href: `${import.meta.env.BASE_URL}brand/devspace-icon-v1-16.png` },
-  { rel: "shortcut icon", href: `${import.meta.env.BASE_URL}brand/devspace-favicon-v1.ico` },
+  { rel: "icon", type: "image/png", sizes: "32x32", href: `${import.meta.env.BASE_URL}brand/devspace-icon-v2-32.png` },
+  { rel: "icon", type: "image/png", sizes: "16x16", href: `${import.meta.env.BASE_URL}brand/devspace-icon-v2-16.png` },
+  { rel: "shortcut icon", href: `${import.meta.env.BASE_URL}brand/devspace-favicon-v2.ico` },
   { rel: "manifest", href: `${import.meta.env.BASE_URL}site.webmanifest.json` },
-  { rel: "apple-touch-icon", href: `${import.meta.env.BASE_URL}brand/devspace-icon-v1-512.png` },
-  { rel: "apple-touch-icon", sizes: "180x180", href: `${import.meta.env.BASE_URL}brand/devspace-icon-v1-180.png` },
-  { rel: "apple-touch-icon", sizes: "512x512", href: `${import.meta.env.BASE_URL}brand/devspace-icon-v1-512.png` },
+  { rel: "apple-touch-icon", href: `${import.meta.env.BASE_URL}brand/devspace-icon-v2-512.png` },
+  { rel: "apple-touch-icon", sizes: "180x180", href: `${import.meta.env.BASE_URL}brand/devspace-icon-v2-180.png` },
+  { rel: "apple-touch-icon", sizes: "512x512", href: `${import.meta.env.BASE_URL}brand/devspace-icon-v2-512.png` },
   { rel: "stylesheet", href: globalStyles },
   {
     rel: "preload",

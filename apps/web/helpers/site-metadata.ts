@@ -1,14 +1,14 @@
 import type { MetaDescriptor } from "react-router";
 
-export const DEVSPACE_NAME = "Devspace";
-export const DEVSPACE_TITLE = "Devspace | Work, Wiki & Timesheets";
+export const DEVSPACE_NAME = "DevSpace";
+export const DEVSPACE_TITLE = "DevSpace | Work, Wiki & Timesheets";
 export const DEVSPACE_DESCRIPTION =
   "One workspace for your team's projects, knowledge, weekly timesheets and milestones.";
 
 export function createDevspaceMetadata(publicUrl: string): MetaDescriptor[] {
   const origin = new URL(publicUrl).origin;
-  const image = new URL("/devspace-og-v1.png", origin).href;
-  const imageAlt = "Devspace: Work, Wiki, Timesheets and Milestones";
+  const image = new URL("/devspace-og-v2.png", origin).href;
+  const imageAlt = "DevSpace: Work, Wiki, Timesheets and Milestones";
   return [
     { title: DEVSPACE_TITLE },
     { name: "description", content: DEVSPACE_DESCRIPTION },
@@ -32,6 +32,6 @@ export function createDevspaceMetadata(publicUrl: string): MetaDescriptor[] {
 
 export function devspacePageTitle(title?: string): string {
   if (!title) return DEVSPACE_TITLE;
-  if (title === DEVSPACE_NAME || title === DEVSPACE_TITLE || title.endsWith(" - Devspace")) return title;
-  return `${title} - Devspace`;
+  if (title === DEVSPACE_NAME || title === DEVSPACE_TITLE || title.endsWith(" - DevSpace")) return title;
+  return `${title} - DevSpace`;
 }

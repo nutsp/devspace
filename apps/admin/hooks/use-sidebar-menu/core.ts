@@ -45,7 +45,7 @@ export const coreSidebarMenuLinks: Record<TCoreSidebarMenuKey, TSidebarMenuItem>
   },
   image: {
     Icon: Image,
-    name: "Images in Devspace",
+    name: "Images in DevSpace",
     description: "Allow third-party image libraries.",
     href: `/image/`,
   },

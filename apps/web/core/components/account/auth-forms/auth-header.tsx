@@ -28,29 +28,29 @@ const Titles = {
   [EAuthModes.SIGN_IN]: {
     [EAuthSteps.EMAIL]: {
       header: "One workspace for your team.",
-      subHeader: "Welcome back to Devspace.",
+      subHeader: "Welcome back to DevSpace.",
     },
     [EAuthSteps.PASSWORD]: {
       header: "One workspace for your team.",
-      subHeader: "Welcome back to Devspace.",
+      subHeader: "Welcome back to DevSpace.",
     },
     [EAuthSteps.UNIQUE_CODE]: {
       header: "One workspace for your team.",
-      subHeader: "Welcome back to Devspace.",
+      subHeader: "Welcome back to DevSpace.",
     },
   },
   [EAuthModes.SIGN_UP]: {
     [EAuthSteps.EMAIL]: {
       header: "One workspace for your team.",
-      subHeader: "Create your Devspace account.",
+      subHeader: "Create your DevSpace account.",
     },
     [EAuthSteps.PASSWORD]: {
       header: "One workspace for your team.",
-      subHeader: "Create your Devspace account.",
+      subHeader: "Create your DevSpace account.",
     },
     [EAuthSteps.UNIQUE_CODE]: {
       header: "One workspace for your team.",
-      subHeader: "Create your Devspace account.",
+      subHeader: "Create your DevSpace account.",
     },
   },
 };

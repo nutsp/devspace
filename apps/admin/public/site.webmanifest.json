@@ -1,7 +1,7 @@
 {
-  "name": "Devspace Admin",
-  "short_name": "Devspace",
-  "description": "Manage your Devspace instance.",
+  "name": "DevSpace Admin",
+  "short_name": "DevSpace",
+  "description": "Manage your DevSpace instance.",
   "start_url": "/god-mode/",
   "scope": "/god-mode/",
   "display": "standalone",
@@ -9,12 +9,12 @@
   "theme_color": "#096A9D",
   "icons": [
     {
-      "src": "/god-mode/brand/devspace-icon-v1-192.png",
+      "src": "/god-mode/brand/devspace-icon-v2-192.png",
       "sizes": "192x192",
       "type": "image/png"
     },
     {
-      "src": "/god-mode/brand/devspace-icon-v1-512.png",
+      "src": "/god-mode/brand/devspace-icon-v2-512.png",
       "sizes": "512x512",
       "type": "image/png"
     }

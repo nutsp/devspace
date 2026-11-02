@@ -45,6 +45,6 @@ function HomePage() {
 export default observer(HomePage);
 
 export const meta: Route.MetaFunction = () => [
-  { title: "Devspace Admin | Instance Setup & Sign-In" },
-  { name: "description", content: "Configure your Devspace instance or sign in to the admin portal." },
+  { title: "DevSpace Admin | Instance Setup & Sign-In" },
+  { name: "description", content: "Configure your DevSpace instance or sign in to the admin portal." },
 ];
